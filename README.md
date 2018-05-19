@@ -39,5 +39,5 @@ JxBrowser is a cross-platform Java library that allows integrating Google Chromi
 
 ## Acknowledgments
 Lecturer Kostadin Kratchanov
-![](https://prnt.sc/jjvtay)
+![](https://github.com/ilhans/Shortest-Path-and-Search-Algorithms/blob/master/img/index.png)
 
