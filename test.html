@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN5DpVUTPXuau6Ky0yQxAKExehUJ_wxY0&sensor=false">
+    </script>
+    <script type="text/javascript">
+     
+	  var end;
+	  var waypts = [];
+	 
+
+      function initialize() {
+	  var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var mapOptions = {
+          center: new google.maps.LatLng(39.9075209, 27.9444947),
+          zoom: 6
+        };
+        map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+		//displayRoute();
+      }
+	    function addMarker(location) {
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+	
+
+
+function displayRoute(start,end) {
+
+    // start = new google.maps.LatLng(38.418937, 27.131895);
+    // end = new google.maps.LatLng(36.895108, 30.686969);
+	// waypts = [];
+   // waypts.push({
+     //         location: new google.maps.LatLng(37.940997, 27.288363),
+       //       stopover: true
+     // });
+    var directionsDisplay = new google.maps.DirectionsRenderer();// also, constructor can get "DirectionsRendererOptions" object
+    directionsDisplay.setMap(map); // map should be already initialized.
+
+    var request = {
+        origin : start,
+        destination : end,
+		waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode : google.maps.TravelMode.DRIVING
+    };
+    var directionsService = new google.maps.DirectionsService(); 
+    directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        }
+		else {
+            window.alert('Directions request failed due to ' + status);
+          }
+    });
+}
+	
+	
+	    function calculateAndDisplayRoute(directionsService, directionsDisplay,start,end,midpoints) {
+        var waypts = [];
+        var fields = midpoints.split("AAA");
+        for (var i = 0; i < fields.length; i++) {
+            waypts.push({
+              location: fields[i],
+              stopover: true
+            });
+        }
+
+        directionsService.route({
+          origin: start,
+          destination: end,
+          waypoints: waypts,
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+           
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+	  
+	
+	
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"/>
+  </body>
+</html>
